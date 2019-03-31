@@ -1,4 +1,4 @@
-package io.parkey19;
+package io.parkey19.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

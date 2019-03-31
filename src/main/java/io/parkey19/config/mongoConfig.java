@@ -1,4 +1,4 @@
-package io.parkey19;
+package io.parkey19.config;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
