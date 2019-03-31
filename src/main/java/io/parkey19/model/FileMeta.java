@@ -1,6 +1,6 @@
 package io.parkey19.model;
 
-import lombok.Data;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,7 +10,12 @@ import java.util.Date;
 /**
  * Created by parkey19 on 2018. 11. 19..
  */
-@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode(of = "_id")
 @Document(collection="fs.files")
 public class FileMeta {
     @Id

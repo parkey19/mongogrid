@@ -8,14 +8,23 @@ import com.mongodb.client.gridfs.GridFSDownloadStream;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import io.parkey19.model.FileMeta;
 import io.parkey19.repository.FileMetaRepository;
+import io.parkey19.resource.FileMetaResource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
  * Created by parkey19 on 2018. 11. 19..
@@ -34,9 +43,13 @@ public class VideoController {
     GridFSBucket gridFSBucket;
 
     @GetMapping("/list")
-    public ResponseEntity<?> list() {
-        List<FileMeta> list = videoRepository.findAll();
-        return new ResponseEntity<>(list, HttpStatus.OK);
+    public ResponseEntity<?> list(Pageable pageable, PagedResourcesAssembler<FileMeta> assembler) {
+        Page<FileMeta> page = videoRepository.findAll(pageable);
+        PagedResources<Resource<FileMeta>> resources = assembler.toResource(page, fileMeta -> new FileMetaResource(fileMeta));
+//        resources.add(new Link("/docs/index.html#resources-events-list").withRel("profile"));
+
+        return ResponseEntity.ok(resources);
+
     }
 
 
