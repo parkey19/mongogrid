@@ -43,11 +43,9 @@ public class VideoController {
     GridFSBucket gridFSBucket;
 
     @GetMapping("/list")
-    public ResponseEntity<?> list(Pageable pageable, PagedResourcesAssembler<FileMeta> assembler) {
+    public ResponseEntity list(Pageable pageable, PagedResourcesAssembler<FileMeta> assembler) {
         Page<FileMeta> page = videoRepository.findAll(pageable);
         PagedResources<Resource<FileMeta>> resources = assembler.toResource(page, fileMeta -> new FileMetaResource(fileMeta));
-//        resources.add(new Link("/docs/index.html#resources-events-list").withRel("profile"));
-
         return ResponseEntity.ok(resources);
 
     }
