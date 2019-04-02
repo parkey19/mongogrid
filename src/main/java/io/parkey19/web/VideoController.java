@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * Created by parkey19 on 2018. 11. 19..
  */
 @RestController
-@RequestMapping("/video")
+@RequestMapping(value = "/video", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
 public class VideoController {
 
     @Autowired
@@ -46,6 +47,7 @@ public class VideoController {
     public ResponseEntity list(Pageable pageable, PagedResourcesAssembler<FileMeta> assembler) {
         Page<FileMeta> page = videoRepository.findAll(pageable);
         PagedResources<Resource<FileMeta>> resources = assembler.toResource(page, fileMeta -> new FileMetaResource(fileMeta));
+        resources.add(new Link("/docs/index.html#resources-videos-lists").withRel("profile"));
         return ResponseEntity.ok(resources);
 
     }
