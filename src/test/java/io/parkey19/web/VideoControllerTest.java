@@ -2,6 +2,7 @@ package io.parkey19.web;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import org.bson.types.ObjectId;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -117,6 +119,22 @@ public class VideoControllerTest {
 
     @Test
     public void stream() throws Exception {
+        //when
+        DBObject metaData = new BasicDBObject();
+        metaData.put("user", "park");
+
+        File file = new File("videos/bulb.mp4");
+
+        InputStream targetStream = new FileInputStream(file);
+        ObjectId mp4 = gridFsTemplate.store(targetStream, "1.mp4", "mp4", metaData);
+
+        System.out.println(mp4.toString());
+
+        mockMvc.perform(get("/video/" + mp4.toString()))
+                .andDo(print())
+                .andExpect(status().isOk())
+        ;
+
 
     }
 
