@@ -20,11 +20,11 @@ import java.util.ArrayList;
 @RequestMapping("/api/users")
 public class UserController {
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getUsers(@PathVariable int id) {
-        List<Users> list = new ArrayList<Users>();
-        list.add(new Users("park" , "01099998888"));
-        list.add(new Users("kim" , "01011112222"));
-        return new ResponseEntity<>(list.get(id), HttpStatus.OK);
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<?> getUsers(@PathVariable int id) {
+//        List<Users> list = new ArrayList<Users>();
+//        list.add(new Users("park" , "01099998888"));
+//        list.add(new Users("kim" , "01011112222"));
+//        return new ResponseEntity<>(list.get(id), HttpStatus.OK);
+//    }
 }

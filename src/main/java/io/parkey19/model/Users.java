@@ -1,14 +1,30 @@
 package io.parkey19.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by parkey19 on 2018. 11. 19..
  */
+
+@Getter
+@Setter
+@EqualsAndHashCode(of = "_id")
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Document
 public class Users {
-    public String name;
-    public String phoneNumber;
+
+    @Id
+    private String _id;
+    private String username;
+    private String password;
+
+    private List<UserRole> roles;
+
 }
